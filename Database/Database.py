@@ -1,8 +1,17 @@
 #This class creates a SQLite database with two tables:
 #auth for storing usernames and password hashes and 
 #accounts for storing registered accounts associated with usernames.
-#It provides methods to register users, authenticate users, add accounts, 
-#retrieve accounts for a specific user, and close the database connection.
+#It provides methods to 
+#[]register user
+#[]update user
+#[]delete user
+#[]authenticate user
+#[]add account 
+#[]get accounts
+#[]update accounts
+#[]delete accounts
+#[] and close the database connection.
+
 
 import sqlite3
 from hashlib import sha256
@@ -83,7 +92,6 @@ class PasswordManagerDB:
         #changeme
         print(f"User '{username}' and associated accounts deleted.")
 
-
     def authenticate_user(self, username, password):
         cursor = self.conn.cursor()
         cursor.execute('''
@@ -100,6 +108,7 @@ class PasswordManagerDB:
             #changeme
         print("Authentication failed. Please check your username and password.")
         return False
+
 
     def add_account(self, username, account_name, password):
         cursor = self.conn.cursor()
@@ -148,30 +157,30 @@ class PasswordManagerDB:
     def close_connection(self):
         self.conn.close()
 
-# Usage example:
-if __name__ == "__main__":
-    db = PasswordManagerDB()
+# # Usage example:
+# if __name__ == "__main__":
+#     db = PasswordManagerDB()
 
-    db.register_user('user1', 'password123')
-    db.register_user('user2', 'pass456')
+#     db.register_user('user1', 'password123')
+#     db.register_user('user2', 'pass456')
 
-    db.authenticate_user('user1', 'password123')
-    db.update_user('user1', 'password123', 'new_password')
-    db.authenticate_user('user2', 'pass_wrong')
+#     db.authenticate_user('user1', 'password123')
+#     db.update_user('user1', 'password123', 'new_password')
+#     db.authenticate_user('user2', 'pass_wrong')
 
-    print("User 'user1' accounts after user update:")
+#     print("User 'user1' accounts after user update:")
 
-    db.delete_user('user2')
+#     db.delete_user('user2')
 
-    print(db.get_accounts('user1'))
+#     print(db.get_accounts('user1'))
 
-    db.add_account('user1', 'example.com', 'example_password')
-    db.add_account('user2', 'bank.com', 'bank_password')
+#     db.add_account('user1', 'example.com', 'example_password')
+#     db.add_account('user2', 'bank.com', 'bank_password')
 
-    print("User 1's accounts:")
-    print(db.get_accounts('user1'))
+#     print("User 1's accounts:")
+#     print(db.get_accounts('user1'))
 
-    print("User 2's accounts:")
-    print(db.get_accounts('user2'))
+#     print("User 2's accounts:")
+#     print(db.get_accounts('user2'))
 
-    db.close_connection()
+#     db.close_connection()
