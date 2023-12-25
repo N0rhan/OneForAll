@@ -14,7 +14,7 @@
 
 
 import sqlite3
-from hashlib import sha256
+from hashlib import sha512
 
 class PasswordManagerDB:
     def __init__(self, db_name='password_manager.db'):
@@ -46,7 +46,7 @@ class PasswordManagerDB:
 
 
     def register_user(self, username, password):
-        password_hash = sha256(password.encode()).hexdigest()
+        password_hash = sha512(password.encode()).hexdigest()
         cursor = self.conn.cursor()
         try:
             cursor.execute('''
@@ -71,7 +71,7 @@ class PasswordManagerDB:
             cursor.execute('''
                 UPDATE accounts SET username = ? WHERE username = ?
             ''', (new_username, old_username))
-        password_hash = sha256(new_password.encode()).hexdigest()
+        password_hash = sha512(new_password.encode()).hexdigest()
         cursor.execute('''
             UPDATE auth SET password_hash = ?
             WHERE username = ?
@@ -100,7 +100,7 @@ class PasswordManagerDB:
         result = cursor.fetchone()
         if result:
             stored_password_hash = result[0]
-            password_hash = sha256(password.encode()).hexdigest()
+            password_hash = sha512(password.encode()).hexdigest()
             if stored_password_hash == password_hash:
                 #changeme
                 print(f"User '{username}' authenticated successfully!")
